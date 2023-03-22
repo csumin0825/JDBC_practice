@@ -13,6 +13,50 @@ public class RoleDao {
 	private static String dbUser = "connectuser";
 	private static String dbPassword = "connect123!@#";
 	
+	public int addRole(Role role) {
+		int insertCount = 0; // 리턴값 
+		
+		// insert문이라서 ResultSet은 없다.
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dburl, dbUser, dbPassword);
+			
+			String sql = "INSERT INTO role(role_id, description) values (?,?)";
+			ps = conn.prepareStatement(sql);
+			
+			// ? 자리 채우기 
+			ps.setInt(1, role.getRoleId());
+			ps.setString(2, role.getDescription());
+			
+			//  insert에서는 executeUpate 사용 
+			insertCount = ps.executeUpdate();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}finally {
+			if(ps != null) {
+				try {
+					ps.close();
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		return insertCount;
+		
+	}
+	
+	
+	
 	public Role getRole(Integer roleId) {
 		Role role = null;
 		Connection conn = null;
