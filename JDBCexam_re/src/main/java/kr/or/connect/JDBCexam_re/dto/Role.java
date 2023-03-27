@@ -13,6 +13,10 @@ public class Role {
 		this.roleId = roleId;
 		this.description = description;
 	}
+	public Role(Integer roleId) {
+		super();
+		this.roleId = roleId;
+	}
 
 	public Integer getRoleId() {
 		return roleId;
